@@ -33,7 +33,7 @@ var HomePage = (function () {
     };
     HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-home',template:/*ion-inline-start:"C:\Users\duaaa\Desktop\FinalProject-master\src\pages\home\home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Ionic Blank\n    </ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only (click)="goToProfile()">\n        <ion-icon name="person"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <button ion-button block color="primary" (click)="goToCreate()">\n    Add new Student\n  </button>\n\n  <button ion-button block color="primary" (click)="goToList()">\n    See your Students \n  </button>\n</ion-content>'/*ion-inline-end:"C:\Users\duaaa\Desktop\FinalProject-master\src\pages\home\home.html"*/
+            selector: 'page-home',template:/*ion-inline-start:"/home/alysdev/Área de Trabalho/ProfessorApp/src/pages/home/home.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>\n      Ionic Blank\n    </ion-title>\n    <ion-buttons end>\n      <button ion-button icon-only (click)="goToProfile()">\n        <ion-icon name="person"></ion-icon>\n      </button>\n    </ion-buttons>\n  </ion-navbar>\n</ion-header>\n\n<ion-content padding>\n  <button ion-button block color="primary" (click)="goToCreate()">\n    Add new Student\n  </button>\n\n  <button ion-button block color="primary" (click)="goToList()">\n    See your Students \n  </button>\n</ion-content>'/*ion-inline-end:"/home/alysdev/Área de Trabalho/ProfessorApp/src/pages/home/home.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */]])
     ], HomePage);
@@ -151,6 +151,7 @@ var EventProvider = (function () {
         });
     };
     EventProvider.prototype.getEventList = function () {
+        console.log('event', this.eventListRef);
         return this.eventListRef;
     };
     EventProvider.prototype.getEventDetail = function (eventId) {
@@ -254,7 +255,85 @@ var AuthProvider = (function () {
 
 /***/ }),
 
-/***/ 278:
+/***/ 277:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeworkProvider; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_firebase__ = __webpack_require__(54);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_firebase__);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var HomeworkProvider = (function () {
+    function HomeworkProvider() {
+        var _this = this;
+        __WEBPACK_IMPORTED_MODULE_1_firebase___default.a.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                _this.homeworkListRef = __WEBPACK_IMPORTED_MODULE_1_firebase___default.a
+                    .database()
+                    .ref("/userProfile/" + user.uid + "/eventList/");
+            }
+        });
+    }
+    HomeworkProvider.prototype.createEvent = function (studentName, studentId) {
+        return this.homeworkListRef.push({
+            name: studentName,
+            Id: studentId * 1,
+        });
+    };
+    // get the reference of student id
+    HomeworkProvider.prototype.getHomeWorks = function (student_id) {
+        return this.homeworkListRef.child(student_id + "/guestList");
+    };
+    HomeworkProvider.prototype.getEventDetail = function (eventId) {
+        return this.homeworkListRef.child(eventId);
+    };
+    HomeworkProvider.prototype.addhomework = function (homeworkName, eventId, homeworkPicture) {
+        var _this = this;
+        if (homeworkPicture === void 0) { homeworkPicture = null; }
+        return this.homeworkListRef
+            .child(eventId + "/guestList")
+            .push({ homeworkName: homeworkName, eventId: eventId }) //added eventId
+            .then(function (newhomework) {
+            if (homeworkPicture != null) {
+                __WEBPACK_IMPORTED_MODULE_1_firebase___default.a
+                    .storage()
+                    .ref("/guestProfile/" + newhomework.key + "/Picture.png")
+                    .putString(homeworkPicture, 'base64', { contentType: 'image/png' })
+                    .then(function (savedPicture) {
+                    _this.homeworkListRef.child(eventId + "/guestList/" + newhomework.key).update({
+                        picture: savedPicture.downloadURL,
+                    });
+                });
+                return;
+            }
+        });
+    };
+    HomeworkProvider.prototype.getPhotoList = function () {
+        return this.homeworkListRef.child(this.student_id + "/guestList");
+    };
+    HomeworkProvider = __decorate([
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
+        __metadata("design:paramtypes", [])
+    ], HomeworkProvider);
+    return HomeworkProvider;
+}());
+
+//# sourceMappingURL=homework.js.map
+
+/***/ }),
+
+/***/ 279:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -331,13 +410,13 @@ var ProfileProvider = (function () {
 
 /***/ }),
 
-/***/ 279:
+/***/ 280:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(280);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(303);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(281);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__app_module__ = __webpack_require__(304);
 
 
 Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* platformBrowserDynamic */])().bootstrapModule(__WEBPACK_IMPORTED_MODULE_1__app_module__["a" /* AppModule */]);
@@ -345,7 +424,7 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 
 /***/ }),
 
-/***/ 303:
+/***/ 304:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -356,13 +435,13 @@ Object(__WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__["a" /* pl
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_splash_screen__ = __webpack_require__(272);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__ionic_native_status_bar__ = __webpack_require__(273);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__ionic_native_camera__ = __webpack_require__(276);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_email_composer__ = __webpack_require__(277);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(435);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__ionic_native_email_composer__ = __webpack_require__(278);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__app_component__ = __webpack_require__(436);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__pages_home_home__ = __webpack_require__(141);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__providers_auth_auth__ = __webpack_require__(275);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__providers_event_event__ = __webpack_require__(274);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__providers_profile_profile__ = __webpack_require__(278);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__providers_homework_homework__ = __webpack_require__(437);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__providers_profile_profile__ = __webpack_require__(279);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__providers_homework_homework__ = __webpack_require__(277);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -421,7 +500,7 @@ var AppModule = (function () {
 
 /***/ }),
 
-/***/ 435:
+/***/ 436:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -433,7 +512,7 @@ var AppModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_firebase__ = __webpack_require__(54);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_firebase__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__pages_home_home__ = __webpack_require__(141);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__credentials__ = __webpack_require__(436);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__credentials__ = __webpack_require__(437);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -474,7 +553,7 @@ var MyApp = (function () {
         });
     }
     MyApp = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"C:\Users\duaaa\Desktop\FinalProject-master\src\app\app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"C:\Users\duaaa\Desktop\FinalProject-master\src\app\app.html"*/,
+        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({template:/*ion-inline-start:"/home/alysdev/Área de Trabalho/ProfessorApp/src/app/app.html"*/'<ion-nav [root]="rootPage"></ion-nav>\n'/*ion-inline-end:"/home/alysdev/Área de Trabalho/ProfessorApp/src/app/app.html"*/,
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* Platform */],
             __WEBPACK_IMPORTED_MODULE_2__ionic_native_status_bar__["a" /* StatusBar */],
@@ -487,7 +566,7 @@ var MyApp = (function () {
 
 /***/ }),
 
-/***/ 436:
+/***/ 437:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -502,91 +581,7 @@ var firebaseConfig = {
 };
 //# sourceMappingURL=credentials.js.map
 
-/***/ }),
-
-/***/ 437:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomeworkProvider; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_firebase__ = __webpack_require__(54);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_firebase___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_firebase__);
-var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-    return c > 3 && r && Object.defineProperty(target, key, r), r;
-};
-var __metadata = (this && this.__metadata) || function (k, v) {
-    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
-};
-
-
-/*
-  Generated class for the HomeworkProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
-var HomeworkProvider = (function () {
-    function HomeworkProvider() {
-        var _this = this;
-        __WEBPACK_IMPORTED_MODULE_1_firebase___default.a.auth().onAuthStateChanged(function (user) {
-            if (user) {
-                _this.homeworkListRef = __WEBPACK_IMPORTED_MODULE_1_firebase___default.a
-                    .database()
-                    .ref("/userProfile/" + user.uid + "/eventList/guestList");
-            }
-        });
-    }
-    HomeworkProvider.prototype.createEvent = function (studentName, studentId) {
-        return this.homeworkListRef.push({
-            name: studentName,
-            Id: studentId * 1,
-        });
-    };
-    HomeworkProvider.prototype.getEventList = function () {
-        return this.homeworkListRef;
-    };
-    HomeworkProvider.prototype.getEventDetail = function (eventId) {
-        return this.homeworkListRef.child(eventId);
-    };
-    HomeworkProvider.prototype.addhomework = function (homeworkName, eventId, homeworkPicture) {
-        var _this = this;
-        if (homeworkPicture === void 0) { homeworkPicture = null; }
-        return this.homeworkListRef
-            .child(eventId + "/guestList")
-            .push({ homeworkName: homeworkName, eventId: eventId }) //added eventId
-            .then(function (newhomework) {
-            if (homeworkPicture != null) {
-                __WEBPACK_IMPORTED_MODULE_1_firebase___default.a
-                    .storage()
-                    .ref("/guestProfile/" + newhomework.key + "/Picture.png")
-                    .putString(homeworkPicture, 'base64', { contentType: 'image/png' })
-                    .then(function (savedPicture) {
-                    _this.homeworkListRef.child(eventId + "/guestList/" + newhomework.key).update({
-                        picture: savedPicture.downloadURL,
-                    });
-                });
-                return;
-            }
-        });
-    };
-    HomeworkProvider.prototype.getPhotoList = function () {
-        //return this.eventListRef.child(`/guestProfile/`);
-        return this.homeworkListRef.child("/guestList");
-    };
-    HomeworkProvider = __decorate([
-        Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [])
-    ], HomeworkProvider);
-    return HomeworkProvider;
-}());
-
-//# sourceMappingURL=homework.js.map
-
 /***/ })
 
-},[279]);
+},[280]);
 //# sourceMappingURL=main.js.map

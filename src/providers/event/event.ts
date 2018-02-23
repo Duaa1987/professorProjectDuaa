@@ -26,12 +26,15 @@ export class EventProvider {
   }
 
   getEventList(): Reference {
+    console.log('event', this.eventListRef)
     return this.eventListRef;
   }
 
   getEventDetail(eventId: string): Reference {
     return this.eventListRef.child(eventId);
   }
+
+  
 
   addhomework(homeworkName: string, eventId: string, homeworkPicture: string = null
   ): PromiseLike<any> {

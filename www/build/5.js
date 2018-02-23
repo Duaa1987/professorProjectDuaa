@@ -81,7 +81,7 @@ var EventListPage = (function () {
     };
     EventListPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-event-list',template:/*ion-inline-start:"C:\Users\duaaa\Desktop\FinalProject-master\src\pages\event-list\event-list.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>Student List</ion-title>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content padding>\n  <ion-list>\n    <ion-item *ngFor="let event of eventList" (click)="goToEventDetail(event.id)">\n      <h2>{{event?.name}}</h2>\n    </ion-item>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"C:\Users\duaaa\Desktop\FinalProject-master\src\pages\event-list\event-list.html"*/
+            selector: 'page-event-list',template:/*ion-inline-start:"/home/alysdev/Área de Trabalho/ProfessorApp/src/pages/event-list/event-list.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>Student List</ion-title>\n  </ion-navbar>\n</ion-header>\n\n\n<ion-content padding>\n  <ion-list>\n    <ion-item *ngFor="let event of eventList" (click)="goToEventDetail(event.id)">\n      <h2>{{event?.name}}</h2>\n    </ion-item>\n  </ion-list>\n</ion-content>'/*ion-inline-end:"/home/alysdev/Área de Trabalho/ProfessorApp/src/pages/event-list/event-list.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_2__providers_event_event__["a" /* EventProvider */]])

@@ -2,31 +2,20 @@ import { Injectable } from '@angular/core';
 import firebase from 'firebase';
 import { Reference, ThenableReference } from '@firebase/database-types';
 
-/*
-  Generated class for the HomeworkProvider provider.
 
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class HomeworkProvider {
   public homeworkListRef: Reference;
-  constructor() {
+  public student_id: string;
+
+  constructor() { 
     firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        this.homeworkListRef = firebase
-          .database()
-          .ref(`/userProfile/${user.uid}/eventList/guestList`);
-      }
-    });
-  }
-
-
-
-
-
-
-
+    if (user) {
+      this.homeworkListRef = firebase
+        .database()
+        .ref(`/userProfile/${user.uid}/eventList/`);
+    }
+  }); }
 
 
 
@@ -40,8 +29,9 @@ export class HomeworkProvider {
     });
   }
 
-  getEventList(): Reference {
-    return this.homeworkListRef;
+  // get the reference of student id
+  getHomeWorks(student_id: string) {
+    return this.homeworkListRef.child(`${student_id}/guestList`)
   }
 
   getEventDetail(eventId: string): Reference {
@@ -74,8 +64,7 @@ export class HomeworkProvider {
 
   
   getPhotoList(): firebase.database.Reference {
-    //return this.eventListRef.child(`/guestProfile/`);
-    return this.homeworkListRef.child(`/guestList`);
+    return this.homeworkListRef.child(`${this.student_id}/guestList`)
   }
 
  

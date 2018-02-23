@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams,AlertController } from 'ionic-angul
 import { EventProvider } from '../../providers/event/event';
 import { EmailComposer } from '@ionic-native/email-composer';
 import { Camera, CameraOptions } from '@ionic-native/camera';
+import { HomeworkProvider } from '../../providers/homework/homework';
 
 
 /**
@@ -22,11 +23,15 @@ export class PhotoListPage {
   public photoList = [];
   currentImage = null;
   
-  constructor(private camera: Camera, private emailComposer: EmailComposer,    private alertCtrl: AlertController,  public navCtrl: NavController, public navParams: NavParams , public eventProvider: EventProvider) {
+  constructor(private camera: Camera, private emailComposer: EmailComposer,    private alertCtrl: AlertController,
+      public navCtrl: NavController, public navParams: NavParams , public eventProvider: EventProvider, public homeworks: HomeworkProvider) {
   }
 
   ionViewDidEnter(){
-    this.eventProvider.getPhotoList().on('value', snapshot => {
+    console.log('photo list')
+    let student_id = this.navParams.get('student_id')
+    console.log(student_id)
+    this.homeworks.getHomeWorks(student_id).on('value', snapshot => {
       this.photoList = [];
       snapshot.forEach( snap => {
         this.photoList.push({
@@ -37,7 +42,10 @@ export class PhotoListPage {
         console.log(this.photoList);
         return false
       });
+      console.log(this.photoList);
+      
     });
+
   }
 
 

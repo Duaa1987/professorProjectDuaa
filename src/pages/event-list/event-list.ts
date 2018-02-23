@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController } from 'ionic-angular';
 import { EventProvider } from '../../providers/event/event';
+import { HomeworkProvider } from '../../providers/homework/homework';
 
 @IonicPage()
 @Component({
@@ -12,7 +13,7 @@ export class EventListPage {
 
   constructor(
     public navCtrl: NavController,
-    public eventProvider: EventProvider
+    public eventProvider: EventProvider,
   ) {}
 
   ionViewDidLoad() {

@@ -47,6 +47,7 @@ var EventDetailPageModule = (function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(80);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_event_event__ = __webpack_require__(274);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__ionic_native_camera__ = __webpack_require__(276);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__providers_homework_homework__ = __webpack_require__(277);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -61,14 +62,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 
 
+
 var EventDetailPage = (function () {
-    function EventDetailPage(loadingCtrl, camera, navCtrl, navParams, eventProvider, cameraPlugin) {
+    function EventDetailPage(loadingCtrl, camera, navCtrl, navParams, eventProvider, cameraPlugin, homeWorks) {
         this.loadingCtrl = loadingCtrl;
         this.camera = camera;
         this.navCtrl = navCtrl;
         this.navParams = navParams;
         this.eventProvider = eventProvider;
         this.cameraPlugin = cameraPlugin;
+        this.homeWorks = homeWorks;
         this.currentEvent = {};
         this.currenthomework = {};
         this.homeworkName = '';
@@ -76,6 +79,8 @@ var EventDetailPage = (function () {
     }
     EventDetailPage.prototype.ionViewDidLoad = function () {
         var _this = this;
+        console.log(this.homeWorks.student_id);
+        this.student_id = this.navParams.get('eventId');
         this.eventProvider
             .getEventDetail(this.navParams.get('eventId'))
             .on('value', function (eventSnapshot) {
@@ -101,7 +106,10 @@ var EventDetailPage = (function () {
         });
     };
     EventDetailPage.prototype.gotophoto = function () {
-        this.navCtrl.push('PhotoListPage');
+        this.homeWorks.student_id = this.student_id;
+        this.navCtrl.push('PhotoListPage', {
+            student_id: this.student_id
+        });
     };
     EventDetailPage.prototype.addhomework = function (homeworkName) {
         var _this = this;
@@ -112,13 +120,14 @@ var EventDetailPage = (function () {
     };
     EventDetailPage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-event-detail',template:/*ion-inline-start:"C:\Users\duaaa\Desktop\FinalProject-master\src\pages\event-detail\event-detail.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>Homework Page</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n    <ion-card>\n    <h1>Student Name : {{currentEvent?.name}}</h1>\n    <ion-card-content>\n    </ion-card-content>\n  </ion-card>\n  \n\n  \n  <ion-card class="add-homework-form">\n    <ion-card-header>\n      Add Homework\n    </ion-card-header>\n    <ion-card-content>\n      <ion-row>\n        <ion-col col-8>\n          <ion-item>\n            <ion-label stacked>Name</ion-label>\n            <ion-input [(ngModel)]="homeworkName" type="text" placeholder="What\'s your homework\'s name?"></ion-input>\n          </ion-item>\n        </ion-col>\n\n        <ion-col col-4>\n          <button ion-button icon-only (click)="takePicture()">\n            <ion-icon name="camera"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n      <span *ngIf="homeworkPicture">Picture taken!</span>\n      <button ion-button color="primary" block (click)="addhomework(homeworkName)" [disabled]="!homeworkName">\n        Add Homework\n      </button>\n    </ion-card-content>\n  </ion-card>\n  <img src={{imgurl}}>\n  <ion-card-content>\n    <ion-list no-lines>\n      <button ion-button color="primary" block (click)=" gotophoto()"> List of Homework </button>\n    </ion-list>\n  </ion-card-content>\n  \n  \n\n\n</ion-content>'/*ion-inline-end:"C:\Users\duaaa\Desktop\FinalProject-master\src\pages\event-detail\event-detail.html"*/
+            selector: 'page-event-detail',template:/*ion-inline-start:"/home/alysdev/Área de Trabalho/ProfessorApp/src/pages/event-detail/event-detail.html"*/'<ion-header>\n  <ion-navbar>\n    <ion-title>Homework Page</ion-title>\n  </ion-navbar>\n</ion-header>\n\n<ion-content>\n    <ion-card>\n    <h1>Student Name : {{currentEvent?.name}}</h1>\n    <ion-card-content>\n    </ion-card-content>\n  </ion-card>\n  \n\n  \n  <ion-card class="add-homework-form">\n    <ion-card-header>\n      Add Homework\n    </ion-card-header>\n    <ion-card-content>\n      <ion-row>\n        <ion-col col-8>\n          <ion-item>\n            <ion-label stacked>Name</ion-label>\n            <ion-input [(ngModel)]="homeworkName" type="text" placeholder="What\'s your homework\'s name?"></ion-input>\n          </ion-item>\n        </ion-col>\n\n        <ion-col col-4>\n          <button ion-button icon-only (click)="takePicture()">\n            <ion-icon name="camera"></ion-icon>\n          </button>\n        </ion-col>\n      </ion-row>\n      <span *ngIf="homeworkPicture">Picture taken!</span>\n      <button ion-button color="primary" block (click)="addhomework(homeworkName)" [disabled]="!homeworkName">\n        Add Homework\n      </button>\n    </ion-card-content>\n  </ion-card>\n  <img src={{imgurl}}>\n  <ion-card-content>\n    <ion-list no-lines>\n      <button ion-button color="primary" block (click)=" gotophoto()"> List of Homework </button>\n    </ion-list>\n  </ion-card-content>\n  \n  \n\n\n</ion-content>'/*ion-inline-end:"/home/alysdev/Área de Trabalho/ProfessorApp/src/pages/event-detail/event-detail.html"*/
         }),
         __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* LoadingController */], __WEBPACK_IMPORTED_MODULE_3__ionic_native_camera__["a" /* Camera */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */],
             __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */],
             __WEBPACK_IMPORTED_MODULE_2__providers_event_event__["a" /* EventProvider */],
-            __WEBPACK_IMPORTED_MODULE_3__ionic_native_camera__["a" /* Camera */]])
+            __WEBPACK_IMPORTED_MODULE_3__ionic_native_camera__["a" /* Camera */],
+            __WEBPACK_IMPORTED_MODULE_4__providers_homework_homework__["a" /* HomeworkProvider */]])
     ], EventDetailPage);
     return EventDetailPage;
 }());
