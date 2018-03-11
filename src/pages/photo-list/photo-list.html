@@ -4,40 +4,36 @@
       Image Gallery
     </ion-title>
 
+    <ion-buttons end>
+      <button ion-button icon-only >
+       
+        Select </button>
+    </ion-buttons>
+
   </ion-navbar>
 </ion-header>
 
 <ion-content padding float-right>
-  <button ion-button block clear (click)="goToResetPassword()">
-    Select
-  </button>
+  
 
   <div [ngSwitch]="galleryType">
     <!-- Responsive Layout with Ion Grid-->
-    
+
 
     <ion-grid>
       <ion-row>
-        <ion-col col-6 *ngFor="let image of photoList">
-          <ion-card class="block">
-              <ion-checkbox class="image-container" [style.background-image]="'url(assets/img/' + image + '.jpg)'"></ion-checkbox>
-            <ion-icon name="trash" class="deleteIcon" (click)="deletePhoto(id)"></ion-icon>
-            <img [src]="image.picture"/>
-          </ion-card>
+        <ion-col col-6 *ngFor="let pic of photoList">
+          <ion-item>
+            <ion-checkbox (onChange)="onArrayImages(pic)" >{{pic?.name}}</ion-checkbox>
+            <ion-card item-left>
+              <img src={{pic?.picture}}>
+            </ion-card>
+          </ion-item>
         </ion-col>
       </ion-row>
     </ion-grid>
 
-    <ion-card *ngFor="let pic of photoList" >
-      <ion-item>
-        <h1>{{pic?.name}}</h1>
-          <ion-thumbnail item-left>
-            <img src={{pic?.picture}} >
-          </ion-thumbnail>    
-      </ion-item>
-    </ion-card>
-
-
+    <button ion-button full (click)= "deletePhoto(imageSelected)">Delete Image</button>
     <button ion-button full (click)="captureImage()">Capture Image</button>
     <button ion-button full (click)="sendEmail()">Send Email</button>
 
@@ -50,12 +46,6 @@
     <!-- More Pinterest floating gallery style -->
 
   </div>
-
-
-
-
-
-
 
 
 </ion-content>
